@@ -6,8 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BA235A482E2F08C00021137F /* marketGroups.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BA235A472E2F08C00021137F /* marketGroups.yaml */; };
+		BAD7934E2E1E249300F15F8B /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = BAD7934D2E1E249300F15F8B /* Yams */; };
+		BAD793502E1E270400F15F8B /* groupIDs.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BAD7934F2E1E270400F15F8B /* groupIDs.yaml */; };
+		BAD793522E1E288700F15F8B /* typeIDs.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BAD793512E1E288700F15F8B /* typeIDs.yaml */; };
+		BAD793682E22150700F15F8B /* categoryIDs.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BAD793672E22150700F15F8B /* categoryIDs.yaml */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		BA235A472E2F08C00021137F /* marketGroups.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = marketGroups.yaml; sourceTree = "<group>"; };
 		BAD792C92E1E172200F15F8B /* EveSwiftData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveSwiftData.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAD7934F2E1E270400F15F8B /* groupIDs.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = groupIDs.yaml; sourceTree = "<group>"; };
+		BAD793512E1E288700F15F8B /* typeIDs.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = typeIDs.yaml; sourceTree = "<group>"; };
+		BAD793672E22150700F15F8B /* categoryIDs.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = categoryIDs.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAD7934E2E1E249300F15F8B /* Yams in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +45,10 @@
 		BAD792C02E1E172200F15F8B = {
 			isa = PBXGroup;
 			children = (
+				BAD793672E22150700F15F8B /* categoryIDs.yaml */,
+				BAD793512E1E288700F15F8B /* typeIDs.yaml */,
+				BAD7934F2E1E270400F15F8B /* groupIDs.yaml */,
+				BA235A472E2F08C00021137F /* marketGroups.yaml */,
 				BAD792CB2E1E172200F15F8B /* EveSwiftData */,
 				BAD792CA2E1E172200F15F8B /* Products */,
 			);
@@ -65,6 +82,7 @@
 			);
 			name = EveSwiftData;
 			packageProductDependencies = (
+				BAD7934D2E1E249300F15F8B /* Yams */,
 			);
 			productName = EveSwiftData;
 			productReference = BAD792C92E1E172200F15F8B /* EveSwiftData.app */;
@@ -94,6 +112,9 @@
 			);
 			mainGroup = BAD792C02E1E172200F15F8B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BAD7934C2E1E249300F15F8B /* XCRemoteSwiftPackageReference "Yams" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BAD792CA2E1E172200F15F8B /* Products */;
 			projectDirPath = "";
@@ -109,6 +130,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAD793522E1E288700F15F8B /* typeIDs.yaml in Resources */,
+				BAD793502E1E270400F15F8B /* groupIDs.yaml in Resources */,
+				BAD793682E22150700F15F8B /* categoryIDs.yaml in Resources */,
+				BA235A482E2F08C00021137F /* marketGroups.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +370,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BAD7934C2E1E249300F15F8B /* XCRemoteSwiftPackageReference "Yams" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jpsim/Yams";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BAD7934D2E1E249300F15F8B /* Yams */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAD7934C2E1E249300F15F8B /* XCRemoteSwiftPackageReference "Yams" */;
+			productName = Yams;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BAD792C12E1E172200F15F8B /* Project object */;
 }

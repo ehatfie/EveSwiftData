@@ -12,8 +12,12 @@ import SwiftData
 struct EveSwiftDataApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            CategoryModel.self,
+            GroupModel.self,
+            TypeModel.self,
+            MarketGroupModel.self
         ])
+        
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -22,10 +26,20 @@ struct EveSwiftDataApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
+    
+    @State var modelData: ModelData
+    
+    init() {
+        self.modelData = ModelData(modelContext: sharedModelContainer.mainContext)
+    }
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            //TestContentWrapper(viewModel: TestViewModel1(dataManager: modelData.dataManager, modelContext: modelData.modelContext))
+            TestNavigationSplitView()
+                .environment(modelData)
+//            ContentView()
+//                .environment(modelData)
         }
         .modelContainer(sharedModelContainer)
     }
