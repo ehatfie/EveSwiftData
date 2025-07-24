@@ -97,3 +97,4 @@ iOSInjectionProject/
 
 *.xcodeproj/xcuserdata/*
 *.xcodeproj/xcshareddata/
+*.xcodeproj/project.xcworkspace/xcshareddata
