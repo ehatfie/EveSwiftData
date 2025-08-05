@@ -19,25 +19,22 @@ struct TestNavigationSplitView: View {
           id: \.id,
           children: \.content
         ) { value in
-          if value is MarketGroupString {
-            NavigationLink(value: (value)) {
-              Text(value.value)
-              //Text(value.name)
-            }
-          } else {
-            NavigationLink(value: (value)) {
-              Text(value.value)
-              //Text(value.name)
-            }
+          NavigationLink(value: (value)) {
+            Text(value.value)
           }
-
         }
       }
       .navigationDestination(for: IdentifiedString.self) { identifiedString in
         Text("IdentifiedString \(identifiedString.value)")
       }
       .navigationDestination(for: TypeString.self) { typeString in
-        Text("TypeString \(typeString.value)")
+          ShipFittingView(
+            viewModel: ShipFittingViewModel(
+                modelData: modelData,
+                typeId: typeString.typeId
+              )
+            )
+        //TypeDetailView(typeId: typeString.typeId, modelContext: modelData.modelContext)
       }
       .navigationDestination(for: MarketGroupString.self) { marketGroupString in
         Text("MarketGroupString \(marketGroupString.value)")
@@ -55,6 +52,12 @@ struct TestNavigationSplitView: View {
       .frame(minWidth: 150)
     } detail: {
       Text("Some Detail")
+        DogmaShieldView(dogmaAttributes: [
+            .init(value: 0.11, attributeId: 271, categoryId: nil, text: "EM"),
+            .init(value: 0.44, attributeId: 274, categoryId: nil, text: "Thermal"),
+            .init(value: 0.33, attributeId: 273, categoryId: nil, text: "Kinetic"),
+            .init(value: 0.22, attributeId: 272, categoryId: nil, text: "Explosive"),
+        ])
       NavigationStack(path: $modelData.path) {
         //NavigationOptions.landmarks.viewForPage()
       }

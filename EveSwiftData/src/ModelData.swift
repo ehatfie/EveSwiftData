@@ -39,7 +39,14 @@ class ModelData {
   
   func makeSidebarItems() async {
     let context = modelContext
-    let supportedMarketGroups: Set<Int> = [157, 1112, 1111, 24, 4, 11, 9]
+    let supportedMarketGroups: Set<Int> = [
+        //157, 1112,
+        //1111,
+        //24,
+        4,
+        //11,
+        //9
+    ]
     let rootMarketGroupsFetch = FetchDescriptor<MarketGroupModel>(
       predicate: #Predicate { supportedMarketGroups.contains($0.marketGroupId) },
       sortBy: [

@@ -53,29 +53,52 @@ class DataManager {
             }
             self.groupModels = foo
         case .typeIDs:
-            let results = try? await readYamlAsync2(for: file, type: TypeData.self)
-            print("++ got \(results?.count) took \(Date().timeIntervalSince(start))")
-            
-            guard let results else { return }
-            
-            let typeModels = results.map { typeID, typeData in
-                return TypeModel(typeId: typeID, data: typeData)
-            }
-            self.typeModels = typeModels
+            await loadTypeModel()
         case .categoryIDs :
             await loadCategoryData()
         case .marketGroups:
             await loadMarketGroups()
+        case .dogmaEffects:
+            await loadDogmaEffectModel()
+        case .dogmaAttrbutes:
+            await loadDogmaAttributes()
+        case .dogmaAttributeCategories:
+            await loadDogmaAttributeCategory()
+        case .typeDogma:
+            await loadTypeDogma()
         default: return
         }
         print("** loadData took \(Date().timeIntervalSince(start))")
     }
     
+    func loadTypeModel() async {
+        //let start = Date()
+        
+//        let existing = try? modelContext.fetch(FetchDescriptor<TypeModel>())
+//        guard existing?.isEmpty ?? true else {
+//            return
+//        }
+//
+        do {
+            let results = try await readYamlAsync2(for: .typeIDs, type: TypeData.self)
+            
+            //guard let results else { return }
+            
+            let typeModels = results.map { typeID, typeData in
+                return TypeModel(typeId: typeID, data: typeData)
+            }
+            insertModels(typeModels)
+        } catch let error {
+            print("++ load type model error \(error)")
+        }
+        
+        //self.typeModels = typeModels
+    }
+    
     func loadCategoryData() async {
         print("++ loadCategoryData")
         let results = try? await readYamlAsync2(for: .categoryIDs, type: CategoryData.self)
-        //print("++ adding \(data.count) items")
-        
+
         let data = results?.map { value -> CategoryModel in
             CategoryModel(id: value.0, data: value.1)
         }
@@ -104,11 +127,88 @@ class DataManager {
         insertModels(data)
     }
     
+    func loadDogmaAttributes() async {
+        let existing = try? modelContext.fetch(FetchDescriptor<DogmaAttributeModel>())
+        guard existing?.isEmpty ?? true else {
+            return
+        }
+        let results = try? await readYamlAsync2(
+            for: .dogmaAttrbutes,
+            type: DogmaAttributeData1.self
+        )
+        
+        let data = results?.map { DogmaAttributeModel(attributeId: $0.0, data: $0.1) }
+        guard let data else {
+            print("++ no data")
+            return
+        }
+        
+        insertModels(data)
+    }
+    
+    func loadDogmaAttributeCategory() async {
+        let existing = try? modelContext.fetch(FetchDescriptor<DogmaAttributeCategoryModel>())
+        guard existing?.isEmpty ?? true else {
+            return
+        }
+        let results = try? await readYamlAsync2(
+            for: .dogmaAttributeCategories,
+            type: TypeDogmaAttributeCategoryData.self
+        )
+        
+        let data = results?.map { DogmaAttributeCategoryModel(categoryId: $0.0, data: $0.1) }
+        guard let data else {
+            print("++ no data")
+            return
+        }
+        
+        insertModels(data)
+    }
+    
+    func loadDogmaEffectModel() async {
+        let existing = try? modelContext.fetch(FetchDescriptor<DogmaEffectModel>())
+        guard existing?.isEmpty ?? true else {
+            return
+        }
+        let results = try? await readYamlAsync2(
+            for: .dogmaEffects,
+            type: DogmaEffectData.self
+        )
+        
+        let data = results?.map { DogmaEffectModel(dogmaEffectId: $0.0, dogmaEffectData: $0.1) }
+        guard let data else {
+            print("++ no data")
+            return
+        }
+        
+        insertModels(data)
+    }
+
+    func loadTypeDogma() async {
+        let existing = try? modelContext.fetch(FetchDescriptor<TypeDogmaInfoModel>())
+        guard existing?.isEmpty ?? true else {
+            print("++ has \(existing?.count ?? -1) TypeDogmaInfoModel")
+            return
+        }
+        
+        let results = try? await readYamlAsync2(
+            for: .typeDogma, type: TypeDogmaData.self
+        )
+        
+        let data = results?.map { TypeDogmaInfoModel(typeId: $0.0, data: $0.1) }
+        guard let data = data else {
+            print("++ no data result")
+            return }
+
+        print("++ inserting \(data.count)")
+        insertModels(data)
+    }
+    
     func insertModels(_ data: [any PersistentModel]) {
         print("++ insert \(data.count) models")
         let start = Date()
         do {
-            var maxBatchSize: Int = 1000
+            let maxBatchSize: Int = 1000
             var currentCount: Int = 0
             for item in data {
                 
@@ -148,7 +248,7 @@ extension DataManager {
       guard let path = Bundle.main.path(forResource: fileName.rawValue, ofType: "yaml") else {
         throw NSError(domain: "", code: 0)
       }
-        let start = Date()
+    let start = Date()
       let url = URL(fileURLWithPath: path)
       let data = try Data(contentsOf: url)
       let yaml = String(data: data, encoding: .utf8)!
@@ -174,8 +274,10 @@ extension DataManager {
         return [:]
       }
       
-      let keyValuePair = mapping.map { $0 }
+        let keyValuePair = mapping.map { $0 }
       var returnValues: [Int64: T] = [:]
+        
+      
         print("++ got kvp \(returnValues.count) in \(Date().timeIntervalSince(start))")
       keyValuePair.forEach { key, value in
         guard let keyValue = key.int else { return }
@@ -204,7 +306,7 @@ extension DataManager {
         print("NO MAPPING")
         return []
       }
-      let keyValuePair = mapping.map { $0 }
+        let keyValuePair = mapping.map { $0 }//.filter{ $0.key == 17478}
       
       let start = Date()
       

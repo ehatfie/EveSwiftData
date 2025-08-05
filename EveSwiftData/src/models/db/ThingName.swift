@@ -5,7 +5,7 @@
 //  Created by Erik Hatfield on 7/8/25.
 //
 
-public struct ThingName: Codable {
+public struct ThingName: Codable, Hashable {
     public let de: String?
     public let en: String?
     public let es: String?

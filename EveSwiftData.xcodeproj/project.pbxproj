@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		BA235A482E2F08C00021137F /* marketGroups.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BA235A472E2F08C00021137F /* marketGroups.yaml */; };
+		BABE92A92E31DDB3004C616A /* dogmaEffects.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92A62E31DDB3004C616A /* dogmaEffects.yaml */; };
+		BABE92AA2E31DDB3004C616A /* dogmaAttributeCategories.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92A82E31DDB3004C616A /* dogmaAttributeCategories.yaml */; };
+		BABE92AB2E31DDB3004C616A /* dogmaAttributes.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92A72E31DDB3004C616A /* dogmaAttributes.yaml */; };
+		BABE92B02E31E5D1004C616A /* typeDogma.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92AF2E31E5D1004C616A /* typeDogma.yaml */; };
 		BAD7934E2E1E249300F15F8B /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = BAD7934D2E1E249300F15F8B /* Yams */; };
 		BAD793502E1E270400F15F8B /* groupIDs.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BAD7934F2E1E270400F15F8B /* groupIDs.yaml */; };
 		BAD793522E1E288700F15F8B /* typeIDs.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BAD793512E1E288700F15F8B /* typeIDs.yaml */; };
@@ -16,6 +20,10 @@
 
 /* Begin PBXFileReference section */
 		BA235A472E2F08C00021137F /* marketGroups.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = marketGroups.yaml; sourceTree = "<group>"; };
+		BABE92A62E31DDB3004C616A /* dogmaEffects.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dogmaEffects.yaml; sourceTree = "<group>"; };
+		BABE92A72E31DDB3004C616A /* dogmaAttributes.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dogmaAttributes.yaml; sourceTree = "<group>"; };
+		BABE92A82E31DDB3004C616A /* dogmaAttributeCategories.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dogmaAttributeCategories.yaml; sourceTree = "<group>"; };
+		BABE92AF2E31E5D1004C616A /* typeDogma.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = typeDogma.yaml; sourceTree = "<group>"; };
 		BAD792C92E1E172200F15F8B /* EveSwiftData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveSwiftData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAD7934F2E1E270400F15F8B /* groupIDs.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = groupIDs.yaml; sourceTree = "<group>"; };
 		BAD793512E1E288700F15F8B /* typeIDs.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = typeIDs.yaml; sourceTree = "<group>"; };
@@ -45,6 +53,10 @@
 		BAD792C02E1E172200F15F8B = {
 			isa = PBXGroup;
 			children = (
+				BABE92AF2E31E5D1004C616A /* typeDogma.yaml */,
+				BABE92A62E31DDB3004C616A /* dogmaEffects.yaml */,
+				BABE92A72E31DDB3004C616A /* dogmaAttributes.yaml */,
+				BABE92A82E31DDB3004C616A /* dogmaAttributeCategories.yaml */,
 				BAD793672E22150700F15F8B /* categoryIDs.yaml */,
 				BAD793512E1E288700F15F8B /* typeIDs.yaml */,
 				BAD7934F2E1E270400F15F8B /* groupIDs.yaml */,
@@ -134,6 +146,10 @@
 				BAD793502E1E270400F15F8B /* groupIDs.yaml in Resources */,
 				BAD793682E22150700F15F8B /* categoryIDs.yaml in Resources */,
 				BA235A482E2F08C00021137F /* marketGroups.yaml in Resources */,
+				BABE92A92E31DDB3004C616A /* dogmaEffects.yaml in Resources */,
+				BABE92B02E31E5D1004C616A /* typeDogma.yaml in Resources */,
+				BABE92AA2E31DDB3004C616A /* dogmaAttributeCategories.yaml in Resources */,
+				BABE92AB2E31DDB3004C616A /* dogmaAttributes.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

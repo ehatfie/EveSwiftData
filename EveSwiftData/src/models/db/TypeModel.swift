@@ -7,6 +7,20 @@
 
 import Foundation
 import SwiftData
+import Yams
+
+public typealias TestTypealias = [Int: RoleBonuses]
+
+//public struct TestTypes: Codable {
+//  public var : Int64
+//}
+
+public struct RoleBonuses: Codable, Hashable {
+  public var bonus: Double?
+  public var bonusText: ThingName
+  public var importance: Int64
+  public var unitID: Int64?
+}
 
 public struct TypeData: Codable {
     public let capacity: Double?
@@ -26,6 +40,7 @@ public struct TypeData: Codable {
     public let sofFactionName: String?
     public let soundID: Int?
     public let volume: Double?
+    public let traits: TypeTraits?
 
     public init(
         capacity: Double? = nil,
@@ -44,7 +59,8 @@ public struct TypeData: Codable {
         raceID: Int? = nil,
         sofFactionName: String? = nil,
         soundID: Int? = nil,
-        volume: Double? = nil
+        volume: Double? = nil,
+        traits: TypeTraits? = nil
     ) {
         self.capacity = capacity
         self.description = description
@@ -63,6 +79,7 @@ public struct TypeData: Codable {
         self.sofFactionName = sofFactionName
         self.soundID = soundID
         self.volume = volume
+      self.traits = traits
     }
 }
 
@@ -89,11 +106,14 @@ final public class TypeModel {
     public var sofFactionName: String?
     public var soundID: Int?
     public var volume: Double?
+    public var traits: TypeTraits?
 
     public init(
         typeId: Int64,
         data: TypeData
     ) {
+      let typeTraits = data.traits
+      
         self.typeId = typeId
         self.capacity = data.capacity
         self.descriptionString = data.description?.en
@@ -112,5 +132,12 @@ final public class TypeModel {
         self.sofFactionName = data.sofFactionName
         self.soundID = data.soundID
         self.volume = data.volume
+        self.traits = data.traits
+    }
+    
+    static func predicate(
+        typeId: Int64
+    ) -> Predicate<TypeModel> {
+        return #Predicate<TypeModel> { $0.typeId == typeId }
     }
 }

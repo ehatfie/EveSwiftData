@@ -15,7 +15,13 @@ struct EveSwiftDataApp: App {
             CategoryModel.self,
             GroupModel.self,
             TypeModel.self,
-            MarketGroupModel.self
+            MarketGroupModel.self,
+            DogmaEffectModel.self,
+            DogmaAttributeModel.self,
+            DogmaAttributeCategoryModel.self,
+            TypeDogmaInfoModel.self,
+            TypeDogmaEffectInfoModel.self,
+            TypeDogmaAttributeInfoModel.self
         ])
         
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -38,9 +44,19 @@ struct EveSwiftDataApp: App {
             //TestContentWrapper(viewModel: TestViewModel1(dataManager: modelData.dataManager, modelContext: modelData.modelContext))
             TestNavigationSplitView()
                 .environment(modelData)
+                .onAppear {
+                    Task {
+//                        try modelData.modelContext.delete(
+//                            model: TypeModel.self
+//                        )
+                        //print("++ deleted type models")
+                        //await modelData.dataManager.loadData(for: .typeIDs)
+                    }
+                }
 //            ContentView()
 //                .environment(modelData)
         }
         .modelContainer(sharedModelContainer)
+        
     }
 }
