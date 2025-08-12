@@ -45,7 +45,7 @@ struct TypeTraitsView: View {
                 if let bonusText = rollBonus.bonusText.en {
                   if let bonus = rollBonus.bonus {
                     Text(String(format: "%.2f", bonus.magnitude) + "%")
-                    Text((bonus < 0 ? "Reduction " : "Bonus ") + bonusText)
+                      Text(bonusText.removeHTMLTagsRegex().capitalized)
                   }
                   
                 }
@@ -64,11 +64,11 @@ struct TypeTraitsView: View {
       VStack(alignment: .leading) {
         Text("Roll Bonuses")
           .font(.title3)
-        Grid {
+          Grid(alignment: .leading) {
           ForEach(rollBonuses, id: \.hashValue) { rollBonus in
             GridRow {
               if let bonusText = rollBonus.bonusText.en {
-                Text(bonusText)
+                  Text(bonusText.removeHTMLTagsRegex().capitalized)
               }
               if let bonus = rollBonus.bonus {
                 Text(String(format: "%.2f", bonus) + "%")
@@ -76,11 +76,18 @@ struct TypeTraitsView: View {
             }
           }
         }
-      }
+      }.textSelection(.enabled)
     }
   }
 }
 
 #Preview {
   TypeTraitsView(typeTraits: TypeTraits())
+}
+
+extension String {
+    func removeHTMLTagsRegex() -> String {
+        let htmlRegex = "<[^>]+>"
+        return self.replacingOccurrences(of: htmlRegex, with: "", options: .regularExpression)
+    }
 }

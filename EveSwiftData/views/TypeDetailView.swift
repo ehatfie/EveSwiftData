@@ -75,19 +75,16 @@ class TypeDetailViewModel {
       predicate: TypeDogmaInfoModel.predicate(typeId: typeId),
     )
     self.typeDogmaInfo = (try? modelContext.fetch(fetchDescriptor2)) ?? []
+      guard !typeDogmaInfo.isEmpty else {
+          return
+      }
     let start = Date()
-    
     let data = typeDogmaInfo[0].attributes.compactMap { attribute -> (TypeDogmaAttributeInfoModel, DogmaAttributeModel)? in
       let fetchDescriptor3 = FetchDescriptor(
         predicate: DogmaAttributeModel.predicate(attributeId: attribute.attributeID),
         sortBy: [SortDescriptor(\DogmaAttributeModel.categoryID, order: .reverse)]
       )
-      do {
-        let attributeModel = try modelContext.fetch(fetchDescriptor3)
-        print("++ got attributeModels \(attributeModel.count)")
-      } catch let error {
-        print("++ get attributeModel error \(error)")
-      }
+
       guard let attributeModel = try? modelContext.fetch(fetchDescriptor3).first else {
         print("++ no attribute model for \(attribute.attributeID)")
         return nil
@@ -189,15 +186,15 @@ struct TypeDetailView: View {
             
             VStack(alignment: .leading) {
               TypeTraitsView(typeTraits: traits)
-              DogmaShieldView(dogmaAttributes: viewModel.shieldAttributes)
-              DogmaShieldView(armorDogmaAttributes: viewModel.armorAttributes)
-              DogmaShieldView(hullDogmaAttributes: viewModel.categorizedAttributes[4]!)
+//              DogmaResistanceView(shieldDogmaAttributes: viewModel.shieldAttributes)
+//              DogmaResistanceView(armorDogmaAttributes: viewModel.armorAttributes)
+//              DogmaResistanceView(hullDogmaAttributes: viewModel.categorizedAttributes[4]!)
             }
-            if let fittingAttributes = viewModel.categorizedAttributes[DogmaAttributeCategory.fitting.rawValue] {
-              ShipFittingDataView(fittingAttributes: fittingAttributes)
-            } else {
-              Text("No fitting attributes")
-            }
+//            if let fittingAttributes = viewModel.categorizedAttributes[DogmaAttributeCategory.fitting.rawValue] {
+//              ShipFittingDataView(fittingAttributes: fittingAttributes)
+//            } else {
+//              Text("No fitting attributes")
+//            }
           }
         }
         GridRow {

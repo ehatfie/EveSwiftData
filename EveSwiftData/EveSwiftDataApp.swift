@@ -21,7 +21,8 @@ struct EveSwiftDataApp: App {
             DogmaAttributeCategoryModel.self,
             TypeDogmaInfoModel.self,
             TypeDogmaEffectInfoModel.self,
-            TypeDogmaAttributeInfoModel.self
+            TypeDogmaAttributeInfoModel.self,
+            ShipFittingModel.self
         ])
         
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -46,12 +47,23 @@ struct EveSwiftDataApp: App {
                 .environment(modelData)
                 .onAppear {
                     Task {
+                        //await modelData.dataManager.loadData(for: .marketGroups)
+                        //await modelData.dataManager.loadData(for: .groupIDs)
+                        //await modelData.dataManager.loadData(for: .categoryIDs)
+                    }
+//                    Task {
+//                        await modelData.dataManager.loadData(for: .dogmaAttrbutes)
+//                        await modelData.dataManager.loadData(for: .dogmaEffects)
+//                        await modelData.dataManager.loadData(for: .dogmaAttributeCategories)
+//                    }
+                    
+//                    Task {
 //                        try modelData.modelContext.delete(
 //                            model: TypeModel.self
 //                        )
-                        //print("++ deleted type models")
-                        //await modelData.dataManager.loadData(for: .typeIDs)
-                    }
+//                        print("++ deleted type models")
+//                        await modelData.dataManager.loadData(for: .typeIDs)
+//                    }
                 }
 //            ContentView()
 //                .environment(modelData)

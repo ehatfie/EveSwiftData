@@ -12,6 +12,7 @@ import SwiftData
 class ModelData {
   var modelContext: ModelContext
   let dataManager: DataManager // = DataManager()
+  var fittingEngine: FittingEngine
   
   var isItemInspectorPresented: Bool = false
   var searchString: String = ""
@@ -31,21 +32,73 @@ class ModelData {
   init(modelContext: ModelContext) {
     self.modelContext = modelContext
     self.dataManager = DataManager(modelContext: modelContext)
-    
+    self.fittingEngine = FittingEngine(modelContext: modelContext)
     Task {
       await makeSidebarItems()
+      //await makeFittingSidebarItems1()
     }
+  }
+  
+  func makeFittingSidebarItems() async {
+    let context = modelContext
+    let category: Int64 = 6
+    
+    let groupFetch = FetchDescriptor(
+      predicate: GroupModel.predicate(categoryId: category)
+    )
+    
+    do {
+      let groupModels = try context.fetch(groupFetch)
+      let fits = await getFitsForGroups(groups: groupModels)
+      self.sidebarItems = fits
+      print("++ made \(fits.count) objects")
+    } catch let fetchError {
+      print("++ Error fetching fitting sidebar items: \(fetchError)")
+    }
+  }
+  
+  func getFittingModels() -> [ShipFittingModel] {
+    let context = modelContext
+    let result = try? context.fetch(
+      FetchDescriptor(predicate: ShipFittingModel.predicate())
+    )
+    return result ?? []
+  }
+  
+  func makeFittingSidebarItems1() async {
+    let context = modelContext
+    let category: Int64 = 6
+    let fits = getFittingModels()
+    let displayable = fits.map { ShipFittingString(data: $0)}
+    self.sidebarItems = displayable
+  }
+
+  func getTypes(for groupModel: GroupModel) -> [TypeModel] {
+    let modelContext = modelContext
+    let result = try? modelContext.fetch(
+      FetchDescriptor(predicate: TypeModel.predicate(groupId: groupModel.groupId))
+    )
+    return result ?? []
+  }
+
+  func getFits(for typeId: Int64) -> [ShipFittingModel] {
+    let modelContext = modelContext
+    
+    let fetchDescriptor = FetchDescriptor(
+      predicate: ShipFittingModel.predicate(typeId: typeId)
+    )
+    return (try? modelContext.fetch(fetchDescriptor)) ?? []
   }
   
   func makeSidebarItems() async {
     let context = modelContext
     let supportedMarketGroups: Set<Int> = [
-        //157, 1112,
-        //1111,
-        //24,
-        4,
-        //11,
-        //9
+//        157, 1112,
+//        1111,
+//        24,
+//        4,
+        11,
+        9
     ]
     let rootMarketGroupsFetch = FetchDescriptor<MarketGroupModel>(
       predicate: #Predicate { supportedMarketGroups.contains($0.marketGroupId) },
@@ -59,7 +112,7 @@ class ModelData {
     do {
       let start = Date()
       let rootMarketGroups = try context.fetch(rootMarketGroupsFetch)
-      print("++ rootMarketGroupsFetch took \(Date().timeIntervalSince(start))")
+        print("++ rootMarketGroupsFetch took \(Date().timeIntervalSince(start)) for \(rootMarketGroups.count) items")
       var sidebarItems: [any IdentifiedStringProtocol] = []
       sidebarItems = await withTaskGroup(
         of: (any IdentifiedStringProtocol).self,
@@ -67,11 +120,11 @@ class ModelData {
       ) { taskGroup in
         for marketGroup in rootMarketGroups {
           taskGroup.addTask {
-            let marketGroupId = await marketGroup.marketGroupId
+            let marketGroupId = marketGroup.marketGroupId
             let start2 = Date()
             let childIdentifiers: [any IdentifiedStringProtocol]? = await self.getChildIdentifiersAsync(for: marketGroupId)
             print("++ top level identifiers took \(Date().timeIntervalSince(start2))")
-            return await MarketGroupString(
+            return MarketGroupString(
               typeId: Int64(marketGroup.marketGroupId),
               value: marketGroup.name,
               content: childIdentifiers

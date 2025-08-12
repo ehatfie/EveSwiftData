@@ -16,6 +16,38 @@ protocol IdentifiedStringProtocol: Identifiable, Hashable {
   var content: [any IdentifiedStringProtocol]? { get }
 }
 
+struct ShipFittingString: IdentifiedStringProtocol, Hashable {
+  var id: AnyHashable {
+    fittingModel.name
+  }
+  
+  static func == (lhs: ShipFittingString, rhs: ShipFittingString) -> Bool {
+    return lhs.typeId == rhs.typeId
+  }
+  
+  var typeId: Int64
+  var value: String
+  var content: [any IdentifiedStringProtocol]?
+  var fittingModel: ShipFittingModel
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+    hasher.combine(typeId)
+    hasher.combine(value)
+
+    if let contentA = content, let contentB = contentA as? [MarketGroupString] {
+      hasher.combine(contentB)
+    }
+  }
+  
+  init(data: ShipFittingModel, content: [any IdentifiedStringProtocol]? = nil) {
+    self.typeId = data.shipTypeID
+    self.value = data.name
+    self.fittingModel = data
+  }
+  
+}
+
 struct MarketGroupString: IdentifiedStringProtocol, Hashable {
   var id: AnyHashable {
     typeId

@@ -21,26 +21,31 @@ struct FittingResistance {
   }
 }
 
-struct DogmaShieldView: View {
+struct DogmaResistanceView: View {
+  let dogmaDescription: String
+  let value: Double
   let dogmaAttributes: [AttributeValue]
   
   let barWidth: CGFloat = 100
   let barHeight: CGFloat = 10
   
-  init?(dogmaAttributes: [Int64: AttributeValue]) {
-    guard let em = dogmaAttributes[271],
-          let thermal = dogmaAttributes[274],
-          let kinetic = dogmaAttributes[273],
-          let explosive = dogmaAttributes[272]
+  init?(shieldDogmaAttributes: [Int64: AttributeValue]) {
+    guard let bufferAttribute = shieldDogmaAttributes[263],
+          let em = shieldDogmaAttributes[271],
+          let thermal = shieldDogmaAttributes[274],
+          let kinetic = shieldDogmaAttributes[273],
+          let explosive = shieldDogmaAttributes[272]
     else {
       return nil
     }
-    
+      value = bufferAttribute.value
+    dogmaDescription = "Shield"
     self.dogmaAttributes = [em,thermal,kinetic,explosive]
   }
   
   init?(armorDogmaAttributes: [Int64: AttributeValue]) {
-    guard let em = armorDogmaAttributes[267],
+    guard let bufferAttribute = armorDogmaAttributes[265],
+          let em = armorDogmaAttributes[267],
           let thermal = armorDogmaAttributes[270],
           let kinetic = armorDogmaAttributes[269],
           let explosive = armorDogmaAttributes[268]
@@ -48,11 +53,14 @@ struct DogmaShieldView: View {
       print("++ missing dogma armor attribute")
       return nil
     }
+    dogmaDescription = "Armor"
+      value = bufferAttribute.value
     self.dogmaAttributes = [em,thermal,kinetic,explosive]
   }
   
   init?(hullDogmaAttributes: [Int64: AttributeValue]) {
-    guard let em = hullDogmaAttributes[113],
+    guard let bufferAttribute = hullDogmaAttributes[9],
+          let em = hullDogmaAttributes[113],
           let thermal = hullDogmaAttributes[110],
           let kinetic = hullDogmaAttributes[109],
           let explosive = hullDogmaAttributes[111]
@@ -60,32 +68,26 @@ struct DogmaShieldView: View {
       print("++ missing dogma hull attribute")
       return nil
     }
+    dogmaDescription = "Hull"
+      value = bufferAttribute.value
     self.dogmaAttributes = [em,thermal,kinetic,explosive]
   }
   
   init(dogmaAttributes: [AttributeValue]) {
-   
     self.dogmaAttributes = dogmaAttributes
+    dogmaDescription = "Default"
+    value = 10000
   }
   
   var body: some View {
-    VStack(alignment: .leading) {
-      Grid(alignment: .trailing, verticalSpacing: 5) {
-//        GridRow(alignment: .top) {
-//          Group {
-//            Text("")
-//            Text("Primary")
-//            Text("Secondary")
-//            Text("Total")
-//            Text("Time")
-//          }
-//        }
-        
+    VStack(alignment: .leading, spacing: 2) {
+      HStack {
+        Text(dogmaDescription)
+        Text(String(format: "%.0f", Double(value)))
+      }
+      Grid(alignment: .leading, verticalSpacing: 0) {
         ForEach(dogmaAttributes) { attribute in
           GridRow {
-            Text(attribute.text)
-            Text(String(format: "%.2f", Double((1 - attribute.value) * 100)))
-              .foregroundStyle(Color.white)
             ZStack(alignment: .leading) {
               Rectangle()
                 .fill(getAttributeColor(attributeId: attribute.attributeId))
@@ -94,6 +96,9 @@ struct DogmaShieldView: View {
                 .fill(getAttributeColor(attributeId: attribute.attributeId).opacity(0.55))
                 .frame(width: barWidth, height: barHeight)
             }
+              Text(String(format: "%.2f", Double((1 - attribute.value) * 100)))
+                .foregroundStyle(Color.white)
+                .font(.footnote)
           }
         }
       }
@@ -121,7 +126,7 @@ struct DogmaShieldView: View {
 }
 
 #Preview {
-  DogmaShieldView(
+  DogmaResistanceView(
     dogmaAttributes: [
       .init(value: 0.11, attributeId: 271, categoryId: nil, text: "EM"),
       .init(value: 0.44, attributeId: 274, categoryId: nil, text: "Thermal"),

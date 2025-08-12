@@ -9,7 +9,6 @@ import SwiftData
 import SwiftUI
 import Yams
 
-
 enum YamlFiles: String {
   case categoryIDs = "categoryIDs"
   case groupIDs = "groupIDs"
@@ -44,14 +43,7 @@ class DataManager {
         print("loadData for file \(file.rawValue)")
         switch file {
         case .groupIDs:
-            let results = try? await readYamlAsync2(for: file, type: GroupData.self)
-            print("++ got \(results?.count) took \(Date().timeIntervalSince(start))")
-            guard let results else { return }
-            
-            let foo = results.map { groupID, groupData in
-                return GroupModel(groupId: groupID, groupData: groupData)
-            }
-            self.groupModels = foo
+            await loadGroupModels()
         case .typeIDs:
             await loadTypeModel()
         case .categoryIDs :
@@ -69,6 +61,24 @@ class DataManager {
         default: return
         }
         print("** loadData took \(Date().timeIntervalSince(start))")
+    }
+    
+    func loadGroupModels() async {
+        let results = try? await readYamlAsync2(for: .groupIDs, type: GroupData.self)
+        
+        guard let results else { return }
+        
+        let groupModels = results.map { groupID, groupData in
+            return GroupModel(groupId: groupID, groupData: groupData)
+        }
+        insertModels(groupModels)
+        
+//        do {
+//            let modelContext = self.modelContext
+//            modelContext.insert(foo)
+//        } catch {
+//            
+//        }
     }
     
     func loadTypeModel() async {

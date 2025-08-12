@@ -192,8 +192,6 @@ struct EffectInfo: View {
         }
         
       }
-      TypeInfo(typeId: dogmaEffectModel.effectID)
-          .border(.orange)
 
       Grid {
         Text(dogmaEffectModel.effectName)

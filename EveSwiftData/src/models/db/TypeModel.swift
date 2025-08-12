@@ -140,4 +140,22 @@ final public class TypeModel {
     ) -> Predicate<TypeModel> {
         return #Predicate<TypeModel> { $0.typeId == typeId }
     }
+    
+    static func predicate(
+        name: String
+    ) -> Predicate<TypeModel> {
+        return #Predicate<TypeModel> { $0.name == name }
+    }
+    
+    static func predicate(
+        groupId: Int64
+    ) -> Predicate<TypeModel> {
+        return #Predicate<TypeModel>{ $0.groupID == groupId }
+    }
+    
+    static func predicate(
+        groupIds: [Int64]
+    ) -> Predicate<TypeModel> {
+        return #Predicate<TypeModel>{ groupIds.contains($0.groupID) }
+    }
 }
