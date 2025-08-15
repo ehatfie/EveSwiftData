@@ -7,6 +7,53 @@
 import SwiftData
 import SwiftUI
 
+/*
+ 
+ @staticmethod
+     def _get_operator(mod_info):
+         # Format: {YAML operator ID: eos operator ID}
+         conversion_map = {
+             -1: ModOperator.pre_assign,
+             0: ModOperator.pre_mul,
+             1: ModOperator.pre_div,
+             2: ModOperator.mod_add,
+             3: ModOperator.mod_sub,
+             4: ModOperator.post_mul,
+             5: ModOperator.post_div,
+             6: ModOperator.post_percent,
+             7: ModOperator.post_assign}
+         return conversion_map[mod_info['operation']]
+ 
+ # Get handler according to function specified in info
+  for mod_info in mod_infos:
+      try:
+          mod_func = mod_info['func']
+      except (KeyError, TypeError):
+          fails += 1
+          continue
+      handler_map = {
+          'ItemModifier': cls._handle_item_mod,
+          'LocationModifier': cls._handle_domain_mod,
+          'LocationGroupModifier': cls._handle_domain_group_mod,
+          'LocationRequiredSkillModifier': cls._handle_domain_skillrq_mod,
+          'OwnerRequiredSkillModifier': cls._handle_owner_skillrq_mod}
+      # Compose and verify modifier, record if we failed to do so
+      try:
+          handler = handler_map[mod_func]
+      except KeyError:
+          fails += 1
+      else:
+          try:
+              mod = handler(mod_info)
+          except KeyboardInterrupt:
+              raise
+          except Exception:
+              fails += 1
+          else:
+              mods.append(mod)
+  return mods, fails
+ */
+
 @Observable class FittingEngine2 {
   let modelContext: ModelContext
   let fitting: ShipFittingModel

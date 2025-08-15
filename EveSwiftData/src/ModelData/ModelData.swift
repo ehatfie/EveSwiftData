@@ -96,8 +96,8 @@ class ModelData {
 //        157, 1112,
 //        1111,
 //        24,
-//        4,
-        11,
+        4,
+//        11,
         9
     ]
     let rootMarketGroupsFetch = FetchDescriptor<MarketGroupModel>(
@@ -141,7 +141,7 @@ class ModelData {
       }
       print("sidebar tooks \(Date().timeIntervalSince(start))")
       //let sidebarItems = rootMarketGroups.map { IdentifiedString(typeId: Int64($0.marketGroupId), value: $0.name)}
-      self.sidebarItems = sidebarItems
+      self.sidebarItems = sidebarItems + [IdentifiedString(typeId: 0, value: "Refresh")]
     } catch let err {
       print("context load error \(err)")
     }
