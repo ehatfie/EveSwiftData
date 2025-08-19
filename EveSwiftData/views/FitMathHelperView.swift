@@ -16,7 +16,7 @@ enum DogmaModifierDomain: String {
   case other = "otherID"
 }
 
-enum DogmaModifier: Int64 {
+enum DogmaModifierOperation: Int64 {
   case preAssign = -1
   case preMult = 0
   case preDiv = 1
@@ -36,6 +36,7 @@ enum DogmaModifier: Int64 {
 struct ItemDogmaInfo {
   let dogmaEffects: [DogmaEffectValue]
   let dogmaAttributeBonuses: [TypeDogmaAttributeInfoModel]
+  let dogmaAttributeDict: [Int64: TypeDogmaAttributeInfoModel]
   let categorizedDogmaAttributes: [Int64: [Int64: AttributeValue]]
 }
 
@@ -58,7 +59,7 @@ class FitMathHelperViewModel {
     self.modelContext = modelContext
     setup()
     setupSelectedItem()
-    
+    doMath()
   }
   
   func setup() {
@@ -95,7 +96,12 @@ class FitMathHelperViewModel {
     for dogmaEffect in sourceDogmaEffects {
       let dogmEffectModel = dogmaEffect.dogmaEffectModel
       let modifierInfo = dogmEffectModel.modifierInfo
-      applyModifiers(modifiers: modifierInfo, to: &localAttributeDict)
+      
+      applyModifiers(
+        sourceData: selectedItemDogmaInfo,
+        modifiers: modifierInfo,
+        to: &localAttributeDict
+      )
     }
     
     var local1: [Int64: [Int64: AttributeValue]] = [:]
@@ -112,35 +118,78 @@ class FitMathHelperViewModel {
   }
   
   func applyModifiers(
+    sourceData: ItemDogmaInfo,
     modifiers: [ModifierInfo],
     to attributes: inout [Int64: AttributeValue]
   ) {
+    
+    let sourceAttributes = sourceData.dogmaAttributeDict
     for modifier in modifiers {
-      let modifiyingAttributeID = modifier.modifiyingAttributeID
+      let domain = modifier.domain
+      let function = modifier.function
+      let modifyingAttributeID = modifier.modifiyingAttributeID
       let modifiedAttributeID = modifier.modifiedAttributeID
       
+      // modified comes from the dest attributes
+      // modifying comes from the source attributes
+      guard let modifyingAttributeValue = sourceAttributes[modifyingAttributeID],
+            let modifiedAttributeValue = attributes[modifiedAttributeID] else {
+        print("++ either no modifying or modified attribute")
+        continue
+      }
+      // Figure out how we are applying the two numbers
+      let operation = modifier.operation
+      guard let dogmaModifierOperation = DogmaModifierOperation(rawValue: operation) else {
+        continue
+      }
+      
+      print("++ domain \(domain) function \(function) operation \(dogmaModifierOperation)")
+      
+      var newValue = modifiedAttributeValue.value
+      // do the math based on how it is supposed to be done
+      switch dogmaModifierOperation {
+      case .postMult:
+        newValue = modifiedAttributeValue.value * modifyingAttributeValue.value
+      default: continue
+      }
+      print("++ modifies \(modifiedAttributeValue.value) by \(modifyingAttributeValue.value) to \(newValue)")
+      // update the object, this could be better
+      let newAttributeValue = AttributeValue(
+        value: newValue,
+        attributeId: modifiedAttributeID,
+        categoryId: modifiedAttributeValue.categoryId,
+        text: modifiedAttributeValue.text
+      )
+      // set the new value
+      attributes[modifiedAttributeID] = newAttributeValue
     }
   }
 
 }
 
 struct FitMathHelperView: View {
-  var viewModel: FitMathHelperViewModel
+  @State var viewModel: FitMathHelperViewModel
   var body: some View {
-    VStack {
-      //TypeInfo(typeId: viewModel.defaultShipId)
-      TypeDetailView(
-        typeId: viewModel.defaultTypeId,
-        modelContext: viewModel.modelContext
-      ).frame(height: 400)
-      if let selectedItemID = viewModel.selectedItemID {
-        TypeDetailView(typeId: selectedItemID, modelContext: viewModel.modelContext)
-          .frame(height: 400)
+    HStack(alignment: .top) {
+      VStack {
+        //TypeInfo(typeId: viewModel.defaultShipId)
+        TypeDetailView(
+          typeId: viewModel.defaultTypeId,
+          modelContext: viewModel.modelContext
+        ).frame(height: 350)
+        if let selectedItemID = viewModel.selectedItemID {
+          TypeDetailView(typeId: selectedItemID, modelContext: viewModel.modelContext)
+            .frame(height: 350)
+        }
       }
-     
+      
+      AttributesDetailView(categorizedDogmaAttributes: $viewModel.modifiedCategorizedDogmaAttributes)
     }
+
   }
 }
+
+
 
 //#Preview {
 //  FitMathHelperView(viewModel: FitMathHelperViewModel())
@@ -156,25 +205,35 @@ extension FitMathHelperViewModel {
     guard let typeDogmaAttributeInfo = typeDogmaInfo?.attributes else {
       return nil
     }
+    
     let attributeValues = makeAttributeValues(for: typeDogmaAttributeInfo)
     let categorizedAttributes = makeCategorizedAttributes(for: attributeValues)
-    let effectValues = makeEffectValue(for: dogmaEffects)
+    let effectValues = makeEffectValues(for: dogmaEffects)
+    var dogmaAttributeDict: [Int64: TypeDogmaAttributeInfoModel] = [:]
+    
+    for dogmaAttribute in dogmaAttributes {
+      dogmaAttributeDict[dogmaAttribute.attributeID] = dogmaAttribute
+    }
+    
     let itemDogmaInfo = ItemDogmaInfo(
       dogmaEffects: effectValues,
       dogmaAttributeBonuses: dogmaAttributes,
+      dogmaAttributeDict: dogmaAttributeDict,
       categorizedDogmaAttributes: categorizedAttributes
     )
     return itemDogmaInfo
   }
   
-  func makeEffectValue(for dogmaEffects: [TypeDogmaEffectInfoModel]) -> [DogmaEffectValue] {
-    
+  func makeEffectValues(for dogmaEffects: [TypeDogmaEffectInfoModel]) -> [DogmaEffectValue] {
     return dogmaEffects.compactMap(makeDogmaEffectValue(for:))
   }
   
-  func makeDogmaEffectValue(for dogmaEffect: TypeDogmaEffectInfoModel) -> DogmaEffectValue? {
+  func makeDogmaEffectValue(for typeDogmaEffectInfo: TypeDogmaEffectInfoModel) -> DogmaEffectValue? {
+    guard let dogmaModel = getDogmaEffectModel(for: typeDogmaEffectInfo.effectID) else {
+      return nil
+    }
     
-    return nil
+    return DogmaEffectValue(typeDogmaEffectInfoModel: typeDogmaEffectInfo, dogmaEffectModel: dogmaModel)
   }
   
   func makeAttributeValues(for attributes: [TypeDogmaAttributeInfoModel]) -> [AttributeValue] {

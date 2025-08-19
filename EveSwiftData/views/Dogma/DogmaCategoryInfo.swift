@@ -26,9 +26,9 @@ struct DogmaCategoryInfo: View {
   var body: some View {
     VStack(alignment: .leading) {
       HStack(alignment: .top) {
-        Text("\(dogmaAttributeCategoryModel.categoryId)")
         Text(dogmaAttributeCategoryModel.name)
-      }
+        Text("\(dogmaAttributeCategoryModel.categoryId)")
+      }.font(.headline)
 
       //Text(dogmaAttributeCategoryModel.categoryDescription)
 

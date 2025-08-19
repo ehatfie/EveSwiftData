@@ -202,19 +202,21 @@ struct TypeDetailView: View {
         Text("\(dogmaInfo.attributes.count) dogma attributes")
         Text("\(dogmaInfo.effects.count) dogma effects")
       }
-      
+
       if let traits = typeModel.traits {
         VStack(alignment: .center) {
           TypeTraitsView(typeTraits: traits)
         }
-        
       }
-      
+
       Grid(alignment: .topLeading) {
         GridRow {
           ScrollView {
-            attributeView1()
+            AttributeCategoryList(
+              attributeCategories: $viewModel.attributeCategories
+            )
           }
+
           List(dogmaInfo.effects, id: \.effectID) { effect in
             EffectInfo(effectId: effect.effectID)
           }
@@ -222,7 +224,7 @@ struct TypeDetailView: View {
       }.border(.orange)
     }
   }
-  
+
   func attributeView() -> some View {
     List(viewModel.attributeCategories) { attributeCategory in
       GroupBox {
@@ -242,40 +244,13 @@ struct TypeDetailView: View {
       }
     }.border(.yellow)
   }
-  
+
   @ViewBuilder
   func attributeView1() -> some View {
     let adaptiveColumn = [
-      GridItem(.flexible(), alignment: .topLeading),
-      //GridItem(.flexible(), alignment: .top),
-      //GridItem(.flexible(), alignment: .top)
-      //GridItem(.adaptive(minimum: 250), alignment: .top),
-      //GridItem(.adaptive(minimum: 250), alignment: .top)
+      GridItem(.flexible(), alignment: .topLeading)
     ]
-    
-      
-    Grid(alignment: .topLeading, horizontalSpacing: 5) {
-      LazyVGrid(columns: adaptiveColumn) {
-        ForEach(viewModel.attributeCategories) { attributeCategory in
-          GroupBox {
-            DogmaCategoryInfo(categoryId: attributeCategory.categoryId)
-            Grid(alignment: .topLeading) {
-              ForEach(attributeCategory.attributeValues) { attributeValue in
-                GridRow(alignment: .top) {
-                  //Text("\(attributeValue.attributeId)")
-                  Text(
-                    attributeValue.text + " \(attributeValue.attributeId)"
-                  )
-                  //AttributeInfo(attributeId: attributeValue.attributeId)
-                  Text(String(format: "%.2f", attributeValue.value))  //attributeValue.value
-                }
-              }
-            }
-          }
-        }
-        
-      }
-    }
+
   }
 }
 

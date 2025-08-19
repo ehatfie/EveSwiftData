@@ -30,13 +30,13 @@ struct AttributeInfo: View {
     if let attributeModel = attributeModel {
       VStack(alignment: .leading) {
         if let displayNameID = attributeModel.displayNameID {
-          HStack(alignment: .top) {
+            VStack(alignment: .leading) {
             Text("DisplayNameID")
             Text(displayNameID)
           }
         }
         if let attributeDescription = attributeModel.attributeDescription {
-          HStack(alignment: .top) {
+          VStack(alignment: .leading) {
             Text("AttributeDescription")
             Text(attributeDescription)
           }

@@ -83,14 +83,14 @@ final public class GroupModel {
   }
 }
 
-extension GroupModel: Equatable, Hashable {
-  static public func == (lhs: GroupModel, rhs: GroupModel) -> Bool {
-    lhs.groupId < rhs.groupId
-  }
-
-  public func hash(into hasher: inout Hasher) {
-    hasher.combine(groupId)
-    //hasher.combine(label)
-    //hasher.combine(command)
-  }
-}
+//extension GroupModel: Equatable, Hashable {
+//  static public func == (lhs: GroupModel, rhs: GroupModel) -> Bool {
+//    lhs.groupId < rhs.groupId
+//  }
+//
+//  public func hash(into hasher: inout Hasher) {
+//    hasher.combine(groupId)
+//    //hasher.combine(label)
+//    //hasher.combine(command)
+//  }
+//}

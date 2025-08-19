@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BA235A482E2F08C00021137F /* marketGroups.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BA235A472E2F08C00021137F /* marketGroups.yaml */; };
+		BA4D1D542E5297F800AD51A1 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = BA4D1D532E5297F800AD51A1 /* Flow */; };
 		BABE92A92E31DDB3004C616A /* dogmaEffects.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92A62E31DDB3004C616A /* dogmaEffects.yaml */; };
 		BABE92AA2E31DDB3004C616A /* dogmaAttributeCategories.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92A82E31DDB3004C616A /* dogmaAttributeCategories.yaml */; };
 		BABE92AB2E31DDB3004C616A /* dogmaAttributes.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92A72E31DDB3004C616A /* dogmaAttributes.yaml */; };
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA4D1D542E5297F800AD51A1 /* Flow in Frameworks */,
 				BAD7934E2E1E249300F15F8B /* Yams in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +97,7 @@
 			name = EveSwiftData;
 			packageProductDependencies = (
 				BAD7934D2E1E249300F15F8B /* Yams */,
+				BA4D1D532E5297F800AD51A1 /* Flow */,
 			);
 			productName = EveSwiftData;
 			productReference = BAD792C92E1E172200F15F8B /* EveSwiftData.app */;
@@ -126,6 +129,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				BAD7934C2E1E249300F15F8B /* XCRemoteSwiftPackageReference "Yams" */,
+				BA4D1D522E5297F800AD51A1 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BAD792CA2E1E172200F15F8B /* Products */;
@@ -388,6 +392,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BA4D1D522E5297F800AD51A1 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tevelee/SwiftUI-Flow";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
+			};
+		};
 		BAD7934C2E1E249300F15F8B /* XCRemoteSwiftPackageReference "Yams" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jpsim/Yams";
@@ -399,6 +411,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BA4D1D532E5297F800AD51A1 /* Flow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA4D1D522E5297F800AD51A1 /* XCRemoteSwiftPackageReference "SwiftUI-Flow" */;
+			productName = Flow;
+		};
 		BAD7934D2E1E249300F15F8B /* Yams */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BAD7934C2E1E249300F15F8B /* XCRemoteSwiftPackageReference "Yams" */;

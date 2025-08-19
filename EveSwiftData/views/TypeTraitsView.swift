@@ -39,7 +39,6 @@ struct TypeTraitsView: View {
           TypeInfo(typeId: Int64(key)!)
           Grid(alignment: .leading) {
             ForEach(rollBonuses, id: \.hashValue) { rollBonus in
-              
               GridRow {
                 if let bonusText = rollBonus.bonusText.en {
                   if let bonus = rollBonus.bonus {
