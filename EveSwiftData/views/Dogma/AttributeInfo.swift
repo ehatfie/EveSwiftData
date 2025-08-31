@@ -28,30 +28,31 @@ struct AttributeInfo: View {
   
   var body: some View {
     if let attributeModel = attributeModel {
-      VStack(alignment: .leading) {
+      VStack(alignment: .leading, spacing: 5) {
         if let displayNameID = attributeModel.displayNameID {
-            VStack(alignment: .leading) {
+          VStack(alignment: .leading) {
             Text("DisplayNameID")
+              .font(.subheadline)
             Text(displayNameID)
           }
         }
-        if let attributeDescription = attributeModel.attributeDescription {
+        if let attributeDescription = attributeModel.attributeDescription, !attributeDescription.isEmpty {
           VStack(alignment: .leading) {
             Text("AttributeDescription")
+              .font(.subheadline)
             Text(attributeDescription)
           }
   //        Text(attributeDescription)
   //          .fixedSize(horizontal: false, vertical: true)
         } else {
-          HStack(alignment: .top) {
-            Text("Name")
-            Text(attributeModel.name)
-              .fixedSize(horizontal: false, vertical: true)
-          }
+          VStack(alignment: .leading) {
+            Text("AttributeDescription")
+              .font(.subheadline)
+            Text("")
+          }.hidden()
           
         }
         if let categoryID = attributeModel.categoryID {
-          Text("CategoryID \(categoryID)")
           DogmaCategoryInfo(categoryId: categoryID)
         }
         

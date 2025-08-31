@@ -81,6 +81,12 @@ final public class GroupModel {
   ) -> Predicate<GroupModel> {
     return #Predicate<GroupModel> { $0.categoryID == categoryId }
   }
+  
+  static func predicate(
+    groupId: Int64
+  ) -> Predicate<GroupModel> {
+    return #Predicate<GroupModel> { $0.groupId == groupId }
+  }
 }
 
 //extension GroupModel: Equatable, Hashable {

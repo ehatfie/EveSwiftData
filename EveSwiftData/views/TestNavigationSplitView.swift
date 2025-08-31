@@ -26,7 +26,13 @@ struct TestNavigationSplitView: View {
         }
       }
       .navigationDestination(for: IdentifiedString.self) { identifiedString in
-        Text("IdentifiedString \(identifiedString.value)")
+  
+        switch identifiedString.typeId {
+        case 0:
+          TournamentRulesView()
+        default:
+          Text("IdentifiedString \(identifiedString.value)")
+        }
       }
       .navigationDestination(for: ShipFittingString.self) { value in
         FittingRootView(
@@ -64,11 +70,15 @@ struct TestNavigationSplitView: View {
       .frame(minWidth: 150)
     } detail: {
       Text("Some Detail")
-      FitMathHelperView(
-        viewModel: FitMathHelperViewModel(
-          modelContext: modelData.modelContext
-        )
-      )
+      TournamentRulesView()
+        .frame(maxHeight: .infinity)
+        .border(.blue)
+        
+//      FitMathHelperView(
+//        viewModel: FitMathHelperViewModel(
+//          modelContext: modelData.modelContext
+//        )
+//      )
       //        FittingRootView(viewModel: FittingViewModel(
       //            modelData: modelData,
       //            fittingModel: ShipFittingModel(

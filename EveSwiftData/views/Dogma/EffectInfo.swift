@@ -24,47 +24,56 @@ struct EffectInfo: View {
   var body: some View {
     Grid(alignment: .leading) {
       Text(dogmaEffectModel.effectName + " \(dogmaEffectModel.effectID)")
-      if let descriptionID = dogmaEffectModel.descriptionID {
-        VStack(alignment: .leading) {
-          Text("DescriptionID")
-          Text(descriptionID)
+        .font(.title2)
+        .padding(.bottom, 5)
+      VStack(alignment: .leading) {
+        if let descriptionID = dogmaEffectModel.descriptionID {
+          VStack(alignment: .leading) {
+            Text("DescriptionID")
+              .font(.subheadline)
+            Text(descriptionID)
+          }
+        }
+        
+        if let displayNameID = dogmaEffectModel.displayNameID {
+          VStack(alignment: .leading) {
+            Text("DisplayNameID")
+              .font(.subheadline)
+            Text(displayNameID)
+          }
         }
       }
-      if let displayNameID = dogmaEffectModel.displayNameID {
-        VStack(alignment: .leading) {
-          Text("DisplayNameID")
-          Text(displayNameID)
-        }
-      }
+
       if let dischargeAttributeID = dogmaEffectModel.dischargeAttributeID {
         VStack(alignment: .leading) {
-          Text("DischargeAttributeID")
-
+          Text("DischargeAttributeID \(dischargeAttributeID)")
+            .font(.headline)
           AttributeInfo(attributeId: dischargeAttributeID)
         }
       }
       ForEach(dogmaEffectModel.modifierInfo, id: \.modifiedAttributeID) {
         dogmaEffect in
         GridRow {
-          VStack(alignment: .leading, spacing: 10) {
+//          VStack(alignment: .leading, spacing: 10) {
+          HStack(alignment: .top, spacing: 10) {
             GroupBox {
-              VStack(alignment: .leading) {
+              VStack(alignment: .leading, spacing: 10) {
                 Text("Modifying \(dogmaEffect.modifiyingAttributeID)")
                 AttributeInfo(
                   attributeId: dogmaEffect.modifiyingAttributeID
                 )
-              }.padding()
-            }
+              }
+            }.border(.red)
             GroupBox {
-              VStack(alignment: .leading) {
+              VStack(alignment: .leading, spacing: 10) {
                 Text("Modified \(dogmaEffect.modifiedAttributeID)")
                 AttributeInfo(
                   attributeId: dogmaEffect.modifiedAttributeID
                 )
-              }.padding()
-            }
+              }
+            }.border(.blue)
           }
-        }.padding()
+        }
         VStack(alignment: .leading) {
           HStack {
             Text("SkillID \(dogmaEffect.skillTypeID)")

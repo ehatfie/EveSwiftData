@@ -70,7 +70,7 @@ final public class TypeDogmaEffect: Sendable {
 }
 
 @Model
-final public class TypeDogmaInfoModel:Sendable {
+final public class TypeDogmaInfoModel: Sendable {
     
     @Attribute(.unique)
     public var typeId: Int64

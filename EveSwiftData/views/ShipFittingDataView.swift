@@ -62,7 +62,6 @@ struct ShipFittingDataView: View {
                 Text(value.value)
               }
             }
-            
           }
         }
       }

@@ -51,7 +51,6 @@ struct TypeInfo: View {
   var body: some View {
     VStack(alignment: .leading) {
       Text(typeModel.name)
-        .font(.title3)
       
       if showDetails {
         details()

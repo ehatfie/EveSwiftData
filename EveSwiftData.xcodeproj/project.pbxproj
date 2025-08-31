@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA13C4472E63D32C00C35ED6 /* tournamentRuleSets.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BA13C4462E63D32C00C35ED6 /* tournamentRuleSets.yaml */; };
 		BA235A482E2F08C00021137F /* marketGroups.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BA235A472E2F08C00021137F /* marketGroups.yaml */; };
 		BA4D1D542E5297F800AD51A1 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = BA4D1D532E5297F800AD51A1 /* Flow */; };
 		BABE92A92E31DDB3004C616A /* dogmaEffects.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BABE92A62E31DDB3004C616A /* dogmaEffects.yaml */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BA13C4462E63D32C00C35ED6 /* tournamentRuleSets.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = tournamentRuleSets.yaml; sourceTree = "<group>"; };
 		BA235A472E2F08C00021137F /* marketGroups.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = marketGroups.yaml; sourceTree = "<group>"; };
 		BABE92A62E31DDB3004C616A /* dogmaEffects.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dogmaEffects.yaml; sourceTree = "<group>"; };
 		BABE92A72E31DDB3004C616A /* dogmaAttributes.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dogmaAttributes.yaml; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 		BAD792C02E1E172200F15F8B = {
 			isa = PBXGroup;
 			children = (
+				BA13C4462E63D32C00C35ED6 /* tournamentRuleSets.yaml */,
 				BABE92AF2E31E5D1004C616A /* typeDogma.yaml */,
 				BABE92A62E31DDB3004C616A /* dogmaEffects.yaml */,
 				BABE92A72E31DDB3004C616A /* dogmaAttributes.yaml */,
@@ -150,6 +153,7 @@
 				BAD793502E1E270400F15F8B /* groupIDs.yaml in Resources */,
 				BAD793682E22150700F15F8B /* categoryIDs.yaml in Resources */,
 				BA235A482E2F08C00021137F /* marketGroups.yaml in Resources */,
+				BA13C4472E63D32C00C35ED6 /* tournamentRuleSets.yaml in Resources */,
 				BABE92A92E31DDB3004C616A /* dogmaEffects.yaml in Resources */,
 				BABE92B02E31E5D1004C616A /* typeDogma.yaml in Resources */,
 				BABE92AA2E31DDB3004C616A /* dogmaAttributeCategories.yaml in Resources */,

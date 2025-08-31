@@ -192,7 +192,6 @@ struct TypeDetailView: View {
   }
 
   var body: some View {
-
     VStack(alignment: .leading) {
       Text(typeModel.name)
         .font(.title)
@@ -218,7 +217,10 @@ struct TypeDetailView: View {
           }
 
           List(dogmaInfo.effects, id: \.effectID) { effect in
-            EffectInfo(effectId: effect.effectID)
+            VStack {
+              EffectInfo(effectId: effect.effectID)
+            }
+
           }
         }
       }.border(.orange)

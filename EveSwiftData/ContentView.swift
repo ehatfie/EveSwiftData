@@ -188,9 +188,9 @@ struct ContentView: View {
         //detailView()
       }
     }.onAppear {
-      //Task {
-      //await modelData.dataManager.loadData(for: .marketGroups)
-      //}
+      Task {
+      await modelData.dataManager.loadData(for: .tournamentRuleSets)
+      }
     }
     EmptyView()
   }
